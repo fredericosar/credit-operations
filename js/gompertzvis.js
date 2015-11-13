@@ -1,7 +1,8 @@
-function GompertzVis(_parentElement, _statesAcronyms, _creditOperations) {
+function GompertzVis(_parentElement, _eventHandler, _statesAcronyms, _creditOperations) {
 	var self = this;
 
 	self.parentElement = _parentElement;
+	self.eventHandler = _eventHandler;
 	self.statesAcronyms = _statesAcronyms;
 	self.creditOperations = _creditOperations;
 
@@ -13,17 +14,22 @@ GompertzVis.prototype.initialize = function () {
 	var self = this;
 
 	/* map dimensions */
-	var svgBounds = document.getElementById("gompertzVis").getBoundingClientRect();
-	var width = svgBounds.width;
+	var width = 1400;
 
 	/* aggregate data */
 	self.aggregateData();
 
+	/* entries */
+	var entries = d3.entries(self.yearOperations);
+
 	/* scales */
-	var xScale = d3.time.scale().range([0, width * 0.9]);
+	var xScale = d3.time.scale().range([0, width]);
 	var yScale = d3.scale.linear().range([0, 117]);
 
-	var minMaxX = [new Date(2002, 0, 1), new Date(2016, 0, 1)];
+	/* domain */
+	var minMaxX = d3.extent(entries.map(function (d) {
+        return new Date(d.key);
+    }));
 	xScale.domain(minMaxX);
 
 	var entries = d3.entries(self.yearOperations);
@@ -37,15 +43,27 @@ GompertzVis.prototype.initialize = function () {
 	/* axes */
 	var xAxis = d3.svg.axis().ticks(14).tickSize(0, 0).scale(xScale);
 
-	/* create brush */
-	var brush = d3.svg.brush();
-
 	/* brush function */
 	brushed = function () {
-		console.log("brushed");
+		/* trigger event for data change */
+		if(self.brush.empty()){
+            self.eventHandler.dataChanged(minMaxX[0], minMaxX[1]);
+        }else{
+            self.eventHandler.dataChanged(self.brush.extent()[0], self.brush.extent()[1]);
+        }
 	}
 
-	brush.x(xScale).on("brush", brushed);
+	/* create brush */
+	self.brush = d3.svg.brush().on("brush", brushed);
+	self.brush.x(xScale);
+
+	/* zoomed function */
+	var zoomed = function (){
+	    console.log("?");
+	}
+	/* create zoom */
+	self.zoom = d3.behavior.zoom().scaleExtent([1, 5]).on("zoom", zoomed);
+	self.zoom.x(xScale);
 
 	/* gompertz curve */
 	var svg = self.parentElement.append("svg").attr("id" , "gompertzCurve").attr("width", width).attr("height", 150);
@@ -64,11 +82,14 @@ GompertzVis.prototype.initialize = function () {
 	/* draw axes */
 	svg.select(".xAxis").call(xAxis);
 
-	/* draw brush */
-	svg.append("g").attr("class", "brush").call(brush)
+	/* draw brush and zoom */
+	svg.append("g")
+		.attr("class", "brush").call(self.brush)
 	    .selectAll("rect")
 	    .attr("clip-path", "url(#priority-clip)")
-	    .attr("height", 130);
+	    .attr("height", 130)
+	    .call(self.zoom)
+        .on("mousedown.zoom", null);
 
 	/* draw legend */
 	svg.append("text")
@@ -92,21 +113,6 @@ GompertzVis.prototype.initialize = function () {
 			return xScale(new Date(d.key));
 		})
 		.attr("fill", "#e88d0c");
-}
-
-GompertzVis.prototype.update = function (statesAcronyms) {
-	var self = this;
-	/* update state list */
-	self.statesAcronyms = statesAcronyms;
-	/* clear map */
-	self.clearMap();
-	/* draw the map again */
-	self.initialize();
-}
-
-GompertzVis.prototype.clearMap = function () {
-	/* remove map */
-	d3.select("#gompertzCurve").remove()
 }
 
 GompertzVis.prototype.aggregateData = function () {

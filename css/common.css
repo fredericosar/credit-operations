@@ -6,7 +6,7 @@ body {
 	background-color: #333 !important;
 	border-bottom: solid 1px #fff;
 	padding-top: 5px;
-	color: #00C4FF !important;
+	color: #feb24c !important;
 }
 
 .top-chart {
@@ -47,6 +47,14 @@ body {
 	stroke: #fff;
 }
 
+#loading img {
+	display: block;
+	padding-top: 200px;
+	padding-bottom: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 ul {
 	text-align: center;
 	font-size: 13px;
@@ -55,10 +63,12 @@ ul {
 
 li {
 	display: inline;
-	padding-left: 60px;
+	margin-left: 50px;
+	margin-right: 50px;
+	/*padding-left: 60px;*/
 }
 
 a:link, a:visited, a:active a:hover {
 	text-decoration: none !important;
-	color: #00C4FF !important;
+	color: #feb24c !important;
 }
