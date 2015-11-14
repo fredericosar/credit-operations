@@ -36,6 +36,8 @@
 		var eventHandler = d3.dispatch("mapClicked", "dateChanged");
 		/* initialize gompertz curve */
 		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations);
+		/* Initialize creditorApplicantRelationVis Node-link diagram */
+		var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
 		/* initialize map */
 		var mapVis = new MapVis(d3.select("#mapVis"), eventHandler, statesAcronyms, creditOperations, mapStates);
 		/* initialize credit operations type */

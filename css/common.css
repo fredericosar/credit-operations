@@ -82,3 +82,13 @@ a:link, a:visited, a:active a:hover {
 	text-decoration: none !important;
 	color: #feb24c !important;
 }
+
+.node {
+        stroke: #fff;
+        stroke-width: 1.5px;
+}
+
+.link {
+        stroke: #999;
+        stroke-opacity: .6;
+}
