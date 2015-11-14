@@ -1,0 +1,19 @@
+.c3-chart-arc path {
+	stroke: #333 !important;
+}
+
+.c3-chart-arcs-title {
+	fill: #fff;
+	font-size: 13px;
+}
+
+.c3-chart-arc text {
+	fill: #fff;
+	font-size: 13px;
+}
+
+.c3-legend-item text {
+	font-family: Armata, Helvetica, Arial, sans;
+    font-size: 8px;
+    fill: #fff;
+}

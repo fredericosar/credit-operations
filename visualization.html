@@ -8,15 +8,20 @@
     <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+	<script src="libs/c3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <!-- style -->
     <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/donut.css">
     <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.css">
+    <link href="libs/c3.min.css" rel="stylesheet" type="text/css">
 
     <!-- visualization -->
     <script src="js/mapvis.js"></script>
     <script src="js/donutsvis.js"></script>
     <script src="js/gompertzvis.js"></script>
+    <script src="js/evolutionvis.js"></script>
 
 </head>
 <body>
@@ -35,17 +40,13 @@
 			<div id="gompertzVis" class="col-md-12 top-chart"></div>
 		</div>
 		<div class="row">
-				<div id="mapVis" class="col-md-9"></div>
-				<div class="col-md-3">
-					<div id="creditTypeVis" class="row"></div>
-					<div id="creditCategoryVis" class="row"></div>
-				</div>
+			<div id="mapVis" class="col-md-6"></div>
+			<div id="creditTypeChart" class="col-md-3"></div>
 		</div>
 		<div class="row">
-			<div class="col-md-3">
-			</div>
-			<div class="col-md-9">
-			</div>
+			<div class="col-md-3"></div>
+			<div id="evolutionVis" class="col-md-6"></div>
+			<div id="creditCategoryChart" class="col-md-2"></div>
 		</div>
 	</div>
     <!-- main script -->

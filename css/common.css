@@ -55,6 +55,16 @@ body {
     margin-right: auto;
 }
 
+#evolutionVis {
+	height: 200px;
+	margin-top: -140px;
+	margin-left: 75px;
+}
+
+#creditCategoryChart {
+	margin-top: -140px;
+}
+
 ul {
 	text-align: center;
 	font-size: 13px;

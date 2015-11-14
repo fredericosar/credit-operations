@@ -19,15 +19,12 @@ GompertzVis.prototype.initialize = function () {
 	/* aggregate data */
 	self.aggregateData();
 
-	/* entries */
-	var entries = d3.entries(self.yearOperations);
-
 	/* scales */
 	var xScale = d3.time.scale().range([0, width]);
 	var yScale = d3.scale.linear().range([0, 117]);
 
 	/* domain */
-	var minMaxX = d3.extent(entries.map(function (d) {
+	var minMaxX = d3.extent(d3.entries(self.yearOperations).map(function (d) {
         return new Date(d.key);
     }));
 	xScale.domain(minMaxX);
@@ -47,9 +44,9 @@ GompertzVis.prototype.initialize = function () {
 	brushed = function () {
 		/* trigger event for data change */
 		if(self.brush.empty()){
-            self.eventHandler.dataChanged(minMaxX[0], minMaxX[1]);
+            self.eventHandler.dateChanged(minMaxX[0], minMaxX[1]);
         }else{
-            self.eventHandler.dataChanged(self.brush.extent()[0], self.brush.extent()[1]);
+            self.eventHandler.dateChanged(self.brush.extent()[0], self.brush.extent()[1]);
         }
 	}
 
@@ -119,17 +116,18 @@ GompertzVis.prototype.aggregateData = function () {
 	var self = this;
 
 	/* aggregate operations by date */
-	self.yearOperations = [];
+	self.yearOperations = {};
 
 	self.creditOperations.forEach(function (d) {
 		/* check if state is on list */
 		if(self.statesAcronyms.indexOf(d["State"].toLowerCase()) != -1){
+			var date = new Date(d["Date"]);
 			/* create a state key if not present */
-			if (!self.yearOperations.hasOwnProperty(d["Date"])) {
-				self.yearOperations[d["Date"]] = [];
+			if (!self.yearOperations.hasOwnProperty(date)) {
+				self.yearOperations[date] = [];
 			}
 			/* save this operation */
-			self.yearOperations[d["Date"]].push(d);
+			self.yearOperations[date].push(d);
 		}
 	});
 }
