@@ -1,0 +1,24 @@
+Directory Structure :
+=====================
+
+credit-operations/
+    css/
+    index.html
+    js/
+    images/
+    libs/
+    data/
+    ProcessBook.pdf
+
+1. In our project directory setup, all data is present in data directory.
+2. Javascript libraries used by us is present in libs directory. 
+3. ProcessBook.pdf presents the design process document. 
+4. css directory has all css files for our project.
+
+
+How to Run :-
+=============
+
+cd credit-operations/
+python -m "SimpleHTTPServer"
+In Google Chrome browser, navigate to http://0.0.0.0:8000/ and click on Visualization.
