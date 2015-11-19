@@ -59,7 +59,7 @@ MapVis.prototype.initialize = function () {
 	for(var state of self.statesAcronyms) {
 		self.svg.append("g")
 			.attr("id", state)
-			.attr("transform", "translate(50, 0)")
+			.attr("transform", "translate(-20, 0)")
 			.on("click", function(){
 				/* get state acronym */
 				var state = d3.select(this).attr("id");

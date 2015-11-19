@@ -1,24 +1,14 @@
-function DonutsVis(_statesAcronyms, _creditOperations, _filterBy) {
+function IndexVis(_statesAcronyms, _creditOperations) {
 	var self = this;
 	
 	self.statesAcronyms = _statesAcronyms;
 	self.creditOperations = _creditOperations;
 
-	/* define type of donut chart */
-	self.filterBy = _filterBy;
-
-	/* div selector */
-	if(self.filterBy == "Creditor's type"){
-		self.divId = "#creditTypeChart";
-	}else if(self.filterBy == "Category"){
-		self.divId = "#creditCategoryChart";
-	}
-
 	/* initialize operations visualization */
 	self.initialize()
 }
 
-DonutsVis.prototype.initialize = function () {
+IndexVis.prototype.initialize = function () {
 	var self = this;
 
 	/* get date range */
@@ -31,20 +21,32 @@ DonutsVis.prototype.initialize = function () {
 
 	/* C3 Library - Pie Chart */
 	self.chart = c3.generate({
-		bindto: self.divId,
+		bindto: "#indexVis",
 		size: {
-			height: 200
+			width: 250
 		},
 		data: {
-			json: self.creditorType,
-			type : 'donut'
-        	// onclick: function (d, i) { console.log("onclick", d, i); },
-        },
-        donut: {
-        	label : {
-        		show: false
-        	}
-        },
+		        x: 'x',
+		        columns: [
+		            ['x',
+		            new Date('2001-01-01'),
+		            new Date('2011-01-01')],
+		            ['data1', 0.8, 0.2]
+		        ],
+		        type: 'bar'
+		    },
+		    axis: {
+		        x: {
+		            type: 'timeseries',
+		            tick: {
+		                format: '%Y',
+		                values: [
+		                    new Date('2001-01-01'), 
+		                    new Date('2011-01-01')
+		                ]
+		            }
+		        }
+		    },
         tooltip: {
         	format: {
         		value: function (value) {
@@ -53,21 +55,25 @@ DonutsVis.prototype.initialize = function () {
         	}
         },
         legend: {
-            position: 'right'
-        },
+            show: false
+        }
 	});
 
 }
 
-DonutsVis.prototype.updateDonut = function () {
+IndexVis.prototype.updateDonut = function () {
 	var self = this;
-	/* update data on chart */
+
+	/* agregate Data */
+	self.aggregateData();
+	
+	/* update data */
 	self.chart.load({
 		json: self.creditorType
 	});
 }
 
-DonutsVis.prototype.updateDate = function (startingDate, endingDate) {
+IndexVis.prototype.updateDate = function (startingDate, endingDate) {
 	var self = this;
 	/* update state list */
 	self.minMaxDate[0] = startingDate;
@@ -78,7 +84,7 @@ DonutsVis.prototype.updateDate = function (startingDate, endingDate) {
 	self.updateDonut();
 }
 
-DonutsVis.prototype.updateStateList = function (state) {
+IndexVis.prototype.updateStateList = function (state) {
 	var self = this;
 	/* update state list */
 	self.statesAcronyms = state;
@@ -88,7 +94,7 @@ DonutsVis.prototype.updateStateList = function (state) {
 	self.updateDonut();
 }
 
-DonutsVis.prototype.aggregateData = function () {
+IndexVis.prototype.aggregateData = function () {
 	var self = this;
 
 	self.creditorType = {};
@@ -100,7 +106,7 @@ DonutsVis.prototype.aggregateData = function () {
 			var date = new Date(self.creditOperations[i]["Date"]);
 			if(date <= self.minMaxDate[1] && date >= self.minMaxDate[0]){
 				/* filter by given category */
-				var type = self.creditOperations[i][self.filterBy];
+				var type = self.creditOperations[i]["Category"];
 				if (!self.creditorType.hasOwnProperty(type)) {
 					self.creditorType[type] = 1;
 				} else {

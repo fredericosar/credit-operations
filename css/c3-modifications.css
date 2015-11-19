@@ -1,3 +1,4 @@
+/* Donut Charts */
 .c3-chart-arc path {
 	stroke: #333 !important;
 }
@@ -12,6 +13,23 @@
 	font-size: 13px;
 }
 
+/* Line Chart */
+.c3-axis path {
+	fill: none;
+    stroke: #fff;
+}
+
+.c3-axis line {
+	stroke: #fff;
+}
+
+.c3-axis text {
+	font-family: Armata, Helvetica, Arial, sans;
+    font-size: 8px;
+    fill: #fff;
+}
+
+/* Common to Charts */
 .c3-legend-item text {
 	font-family: Armata, Helvetica, Arial, sans;
     font-size: 8px;

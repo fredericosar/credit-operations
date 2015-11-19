@@ -12,17 +12,18 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <!-- style -->
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/donut.css">
     <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.css">
-    <link href="libs/c3.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="libs/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/c3-modifications.css">
 
     <!-- visualization -->
-    <script src="js/mapvis.js"></script>
-    <script src="js/donutsvis.js"></script>
-    <script src="js/gompertzvis.js"></script>
-    <script src="js/evolutionvis.js"></script>
-    <script src="js/relationVis.js"></script>
+    <script src="js/gompertzVis.js"></script>
+    <script src="js/mapVis.js"></script>
+    <script src="js/donutsVis.js"></script>
+    <script src="js/evolutionVis.js"></script>
+    <script src="js/indexVis.js"></script>
+    <!--- <script src="js/relationVis.js"></script> -->
 
 </head>
 <body>
@@ -41,16 +42,20 @@
 			<div id="gompertzVis" class="col-md-12 top-chart"></div>
 		</div>
 		<div class="row">
-			<div id="mapVis" class="col-md-6"></div>
-			<div id="creditTypeChart" class="col-md-3"></div>
+			<!--- <div id="creditTypeChart" class="col-md-5"></div> -->
+			<div class="col-md-7"></div>
+			<div id="mapVis"></div>
+			<!--- <div id="entityInfo" class="col-md-2">Brazil<br/>Population: 2.3mi</div> -->
 		</div>
 		<div class="row">
-			<div class="col-md-3"></div>
-			<div id="evolutionVis" class="col-md-6"></div>
-			<div id="creditCategoryChart" class="col-md-2"></div>
+			<div id="creditCategoryChart" class="col-md-2 bottomRow"></div>
+			<div id="evolutionVis" class="col-md-5 bottomRow"></div>
+			<div id="indexVis" class="col-md-2 bottomRow"></div>
+			<!-- <div id="creditCategoryChart" class="col-md-2"></div> -->
+			<!--  <div id="creditTypeChart" class="col-md-2"></div> -->
 		</div>
-		<div class="row">
-			<!-- <div>
+		<!-- <div class="row">
+			div>
 				<svg width="1500" height="1500" id="creditorApplicantVis">
 					<g id="links"></g>
 					<g id="nodes"></g>

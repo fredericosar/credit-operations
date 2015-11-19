@@ -37,7 +37,7 @@
 		/* initialize gompertz curve */
 		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations);
 		/* Initialize creditorApplicantRelationVis Node-link diagram */
-		var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
+		// var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
 		/* initialize map */
 		var mapVis = new MapVis(d3.select("#mapVis"), eventHandler, statesAcronyms, creditOperations, mapStates);
 		/* initialize credit operations type */
@@ -46,15 +46,19 @@
 		var creditCategoryVis = new DonutsVis(statesAcronyms, creditOperations, "Category");
 		/* initialize credit evolution operations */
 		var evolutionVis = new EvolutionVis(statesAcronyms, creditOperations);
+		/* initialize human index  */
+		var indexVis = new IndexVis(statesAcronyms, creditOperations);
 
 		/* click event */
 		eventHandler.on("mapClicked", function(state){
-			// /* update gompertz curve */
-			// gompertzVis.updateStateList([state]);
+			/* update gompertz curve */
+			gompertzVis.updateStateList([state]);
 			/* update credit type donut */
-			// creditTypeVis.updateStateList([state]);
+			creditTypeVis.updateStateList([state]);
 			/* update credit category type */
-			// creditCategoryVis.updateStateList([state]);
+			creditCategoryVis.updateStateList([state]);
+			/* update evolution  */
+			evolutionVis.updateStateList([state]);
 		});
 
 		/* data event */
@@ -65,6 +69,8 @@
 			creditTypeVis.updateDate(startingDate, endingDate);
 			/* update credit category type */
 			creditCategoryVis.updateDate(startingDate, endingDate);
+			/* update evolution  */
+			evolutionVis.updateDate(startingDate, endingDate);
 		});
 
 	}

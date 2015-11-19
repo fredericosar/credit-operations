@@ -14,20 +14,20 @@ GompertzVis.prototype.initialize = function () {
 	var self = this;
 
 	/* map dimensions */
-	var width = 1400;
+	self.width = 1400;
 
 	/* aggregate data */
 	self.aggregateData();
 
 	/* scales */
-	var xScale = d3.time.scale().range([0, width]);
-	var yScale = d3.scale.linear().range([0, 117]);
+	self.xScale = d3.time.scale().range([0, self.width]);
+	self.yScale = d3.scale.linear().range([0, 117]);
 
 	/* domain */
 	var minMaxX = d3.extent(d3.entries(self.yearOperations).map(function (d) {
         return new Date(d.key);
     }));
-	xScale.domain(minMaxX);
+	self.xScale.domain(minMaxX);
 
 	var entries = d3.entries(self.yearOperations);
 	var minMaxY = [d3.min(entries, function(d){
@@ -35,10 +35,10 @@ GompertzVis.prototype.initialize = function () {
 	}), d3.max(entries, function(d){
 		return d.value.length;
 	})];
-	yScale.domain(minMaxY);	
+	self.yScale.domain(minMaxY);	
 
 	/* axes */
-	var xAxis = d3.svg.axis().ticks(14).tickSize(0, 0).scale(xScale);
+	self.xAxis = d3.svg.axis().ticks(14).tickSize(0, 0).scale(self.xScale);
 
 	/* brush function */
 	brushed = function () {
@@ -52,35 +52,35 @@ GompertzVis.prototype.initialize = function () {
 
 	/* create brush */
 	self.brush = d3.svg.brush().on("brush", brushed);
-	self.brush.x(xScale);
+	self.brush.x(self.xScale);
 
 	/* zoomed function */
 	var zoomed = function (){
-	    console.log("?");
+	    console.log("to implement");
 	}
 	/* create zoom */
 	self.zoom = d3.behavior.zoom().scaleExtent([1, 5]).on("zoom", zoomed);
-	self.zoom.x(xScale);
+	self.zoom.x(self.xScale);
 
 	/* gompertz curve */
-	var svg = self.parentElement.append("svg").attr("id" , "gompertzCurve").attr("width", width).attr("height", 150);
+	self.svg = self.parentElement.append("svg").attr("id" , "gompertzCurve").attr("width", self.width).attr("height", 150);
 
-	/* clipping svg */
-	var clipping = svg.append("clipPath")
-	    .attr("id", "priority-clip") 
-	    .append("rect")
-	    .attr("width", width)
-	    .attr("transform", "translate(" + width * 0.03 + ", 0)")
-	    .attr("height", 130);
+	// /* clipping svg */
+	// var clipping = svg.append("clipPath")
+	//     .attr("id", "priority-clip") 
+	//     .append("rect")
+	//     .attr("width", width)
+	//     .attr("transform", "translate(" + width * 0.03 + ", 0)")
+	//     .attr("height", 130);
 
 	/* add axes groups */
-	svg.append("g").attr("class", "xAxis axis").attr("transform", "translate(" + width * 0.03 + ", 130)");
+	self.svg.append("g").attr("class", "xAxis axis").attr("transform", "translate(" + self.width * 0.03 + ", 130)");
 
 	/* draw axes */
-	svg.select(".xAxis").call(xAxis);
+	self.svg.select(".xAxis").call(self.xAxis);
 
 	/* draw brush and zoom */
-	svg.append("g")
+	self.svg.append("g")
 		.attr("class", "brush").call(self.brush)
 	    .selectAll("rect")
 	    .attr("clip-path", "url(#priority-clip)")
@@ -89,27 +89,48 @@ GompertzVis.prototype.initialize = function () {
         .on("mousedown.zoom", null);
 
 	/* draw legend */
-	svg.append("text")
-		.attr("transform", "translate(" + width * 0.03 + ", 10)")
-		.style("font-size","10px")
+	self.svg.append("text")
+		.attr("transform", "translate(" + self.width * 0.03 + ", 10)")
+		.style("font-size","9px")
 		.attr("fill", "#fff")
-		.text("Number of Operations");
+		.text("Number of Operations per day");
+
+	/* append bar group */
+	self.bar = self.svg.append("g").attr("id", "bars").attr("transform", "translate(" + self.width * 0.03 + ", 129) scale(1 -1)");
+
+	/* update bars */
+	self.updateBars();
+
+}
+
+GompertzVis.prototype.updateBars = function () {
+	var self = this;
 
 	/* bar group */
-	var bars = svg.append("g").attr("id", "bars").attr("transform", "translate(" + width * 0.03 + ", 129) scale(1 -1)").selectAll(".bar").data(d3.entries(self.yearOperations));
-	
+	var bars = self.bar.selectAll("rect").data(d3.entries(self.yearOperations));
+
 	/* draw bars */
-	bars.exit().remove();
-	bars.enter().append("rect")
+	// bars.exit().remove();
+	bars.data(d3.entries(self.yearOperations)).enter().append("rect")
 		.attr("y", 0)
 		.attr("height", function(d){
-			return yScale(d.value.length);
+			return self.yScale(d.value.length);
 		})
 		.attr("width", "1")
 		.attr("x", function(d){
-			return xScale(new Date(d.key));
+			return self.xScale(new Date(d.key));
 		})
 		.attr("fill", "#e88d0c");
+}
+
+GompertzVis.prototype.updateStateList = function (state) {
+	var self = this;
+	/* update state list */
+	self.statesAcronyms = state;
+	/* aggredate data */
+	self.aggregateData();
+	/* update vis */
+	self.updateBars();
 }
 
 GompertzVis.prototype.aggregateData = function () {
