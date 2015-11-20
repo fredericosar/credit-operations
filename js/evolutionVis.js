@@ -1,4 +1,4 @@
-function EvolutionVis( _statesAcronyms, _creditOperations) {
+function EvolutionVis(_statesAcronyms, _creditOperations) {
 	var self = this;
 
 	self.statesAcronyms = _statesAcronyms;
@@ -32,10 +32,13 @@ EvolutionVis.prototype.initialize = function () {
 	    	x: {
 	    		type: 'category'
 	    	},
+	    	y: {
+	    		label: 'Number of Operations'
+	    	}
 	    },
 	    legend: {
-	        show: false
-	    }
+	    	position: 'right'
+        }
 	});
 }
 
@@ -66,6 +69,8 @@ EvolutionVis.prototype.updateStateList = function (state) {
 	var self = this;
 	/* update state list */
 	self.statesAcronyms = state;
+
+	console.log(self.statesAcronyms);
 	/* aggredate data */
 	self.aggregateData();
 	/* update vis */

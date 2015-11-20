@@ -1,0 +1,32 @@
+[
+  {
+    "Year": 2000,
+    "Brazil": 0.682,
+    "Distrito Federal": 0.725,
+    "São Paulo": 0.702,
+    "Santa Catarina": 0.674,
+    "Rio de Janeiro": 0.664,
+    "Paraná": 0.650,
+    "Rio Grande do Sul": 0.664,
+    "Espírito Santo": 0.640,
+    "Goiás": 0.615,
+    "Minas Gerais": 0.624,
+    "Mato Grosso do Sul": 0.613,
+    "Mato Grosso": 0.601
+  },
+  {
+    "Year": 2010,
+    "Brazil": 0.739,
+    "Distrito Federal": 0.824,
+    "São Paulo": 0.783,
+    "Santa Catarina": 0.774,
+    "Rio de Janeiro": 0.761,
+    "Paraná": 0.749,
+    "Rio Grande do Sul": 0.746,
+    "Espírito Santo": 0.740,
+    "Goiás": 0.735,
+    "Minas Gerais": 0.731,
+    "Mato Grosso do Sul": 0.729,
+    "Mato Grosso": 0.725
+  }
+]

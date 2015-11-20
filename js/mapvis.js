@@ -8,6 +8,9 @@ function MapVis(_parentElement, _eventHandler, _statesAcronyms, _creditOperation
 	self.statesAcronyms = _statesAcronyms;
 	self.creditOperations = _creditOperations;
 
+	/* starting entitiy */
+	self.entity = "Brasil";
+
 	/* initialize map visualization */
 	self.initialize();
 }
@@ -59,10 +62,11 @@ MapVis.prototype.initialize = function () {
 	for(var state of self.statesAcronyms) {
 		self.svg.append("g")
 			.attr("id", state)
-			.attr("transform", "translate(-20, 0)")
+			.attr("transform", "translate(10, 0)")
 			.on("click", function(){
 				/* get state acronym */
 				var state = d3.select(this).attr("id");
+				self.entity = state;
 				/* trigger the click event */
 				self.eventHandler.mapClicked(state);
 			})

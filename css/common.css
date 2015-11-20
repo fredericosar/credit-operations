@@ -61,14 +61,28 @@ body {
 }
 
 #entityInfo {
-	background-color: #555;
-	margin-top: 20px;
-	font-family: Armata, Helvetica, Arial, sans;
-    font-size: 12px;
-    text-align: center;
-    color: #fff;
+	margin-top: 10px;
+	margin-left: 20px;
+	margin-right: -20px;
+	height: 100px;
+    background-color: #555;
 	border: 1px solid;
     border-radius: 0.5em;
+    font-family: Armata, Helvetica, Arial, sans;
+}
+
+#entityInfo h2 {
+	margin: 10px 0 0 0 !important;
+	color: #feb24c;
+	letter-spacing: 5px;
+    font-size: 18px;
+	text-align: center; 
+}
+
+#entityInfo h3 {
+	color: #feb24c;
+	text-align: center; 
+    font-size: 13px;
 }
 
 ul {

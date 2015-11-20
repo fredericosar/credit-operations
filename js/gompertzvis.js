@@ -20,7 +20,7 @@ GompertzVis.prototype.initialize = function () {
 	self.aggregateData();
 
 	/* scales */
-	self.xScale = d3.time.scale().range([0, self.width]);
+	self.xScale = d3.time.scale().range([self.width * 0.03, self.width]);
 	self.yScale = d3.scale.linear().range([0, 117]);
 
 	/* domain */
@@ -38,7 +38,7 @@ GompertzVis.prototype.initialize = function () {
 	self.yScale.domain(minMaxY);	
 
 	/* axes */
-	self.xAxis = d3.svg.axis().ticks(14).tickSize(0, 0).scale(self.xScale);
+	self.xAxis = d3.svg.axis().ticks(15).tickSize(0, 0).scale(self.xScale);
 
 	/* brush function */
 	brushed = function () {
@@ -66,15 +66,15 @@ GompertzVis.prototype.initialize = function () {
 	self.svg = self.parentElement.append("svg").attr("id" , "gompertzCurve").attr("width", self.width).attr("height", 150);
 
 	// /* clipping svg */
-	// var clipping = svg.append("clipPath")
+	// var clipping = self.svg.append("clipPath")
 	//     .attr("id", "priority-clip") 
 	//     .append("rect")
-	//     .attr("width", width)
-	//     .attr("transform", "translate(" + width * 0.03 + ", 0)")
+	//     .attr("width", self.width)
+	//     .attr("transform", "translate(" + self.width * 0.03 + ", 0)")
 	//     .attr("height", 130);
 
 	/* add axes groups */
-	self.svg.append("g").attr("class", "xAxis axis").attr("transform", "translate(" + self.width * 0.03 + ", 130)");
+	self.svg.append("g").attr("class", "xAxis axis").attr("transform", "translate(0, 130)");
 
 	/* draw axes */
 	self.svg.select(".xAxis").call(self.xAxis);
@@ -95,8 +95,17 @@ GompertzVis.prototype.initialize = function () {
 		.attr("fill", "#fff")
 		.text("Number of Operations per day");
 
+	/* type changer */
+	self.svg.append("text")
+		.attr("transform", "translate(" + self.width * 0.03 + ", 20)")
+		.style("font-size","9px")
+		.attr("fill", "#888")
+		.text(function(){
+			return "[View Gompertz Curve]"
+		})
+
 	/* append bar group */
-	self.bar = self.svg.append("g").attr("id", "bars").attr("transform", "translate(" + self.width * 0.03 + ", 129) scale(1 -1)");
+	self.bar = self.svg.append("g").attr("id", "bars").attr("transform", "translate(0, 129) scale(1 -1)");
 
 	/* update bars */
 	self.updateBars();
@@ -110,17 +119,21 @@ GompertzVis.prototype.updateBars = function () {
 	var bars = self.bar.selectAll("rect").data(d3.entries(self.yearOperations));
 
 	/* draw bars */
-	// bars.exit().remove();
-	bars.data(d3.entries(self.yearOperations)).enter().append("rect")
+	bars.enter()
+	.append("rect")
 		.attr("y", 0)
-		.attr("height", function(d){
-			return self.yScale(d.value.length);
-		})
-		.attr("width", "1")
+		.attr("height", 0)
+		.attr("width", "0.6")
 		.attr("x", function(d){
 			return self.xScale(new Date(d.key));
 		})
 		.attr("fill", "#e88d0c");
+
+	bars.exit().remove();
+
+	bars.attr("height", function(d){
+			return self.yScale(d.value.length);
+		})
 }
 
 GompertzVis.prototype.updateStateList = function (state) {
