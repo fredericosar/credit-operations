@@ -55,10 +55,12 @@ body {
     margin-right: auto;
 }
 
+
 .bottomRow {
 	height: 200px;
-	margin-top: -150px;
-}
+	/*margin-top: -150px;*/
+} 
+
 
 #entityInfo {
 	margin-top: 10px;
@@ -110,4 +112,12 @@ a:link, a:visited, a:active a:hover {
 .link {
 	stroke: #999;
 	stroke-opacity: .6;
+}
+
+#viz{
+	padding: 20px;
+}
+
+.supp {
+	padding: 20px;
 }

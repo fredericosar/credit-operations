@@ -13,7 +13,7 @@ function DonutsVis(_statesAcronyms, _creditOperations) {
 
 DonutsVis.prototype.initialize = function () {
 	var self = this;
-
+	
 	/* get date range */
 	self.minMaxDate = d3.extent(d3.entries(self.creditOperations).map(function (d) {
 		return new Date(d.value["Date"]);

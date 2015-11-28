@@ -20,7 +20,7 @@ MapVis.prototype.initialize = function () {
 
 	/* map dimensions */
 	self.width = 600;
-	self.height = 550;
+	self.height = 500;
 
 	/* get date range */
 	self.minMaxDate = d3.extent(d3.entries(self.creditOperations).map(function (d) {
