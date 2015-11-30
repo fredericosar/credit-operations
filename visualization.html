@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="libs/c3.min.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/c3-modifications.css">
+    <link rel="stylesheet" type="text/css" href="css/introjs.min.css">
 
     <!-- visualization -->
     <script src="js/gompertzVis.js"></script>
@@ -24,7 +25,7 @@
     <script src="js/evolutionVis.js"></script>
     <script src="js/indexVis.js"></script>
     <script src="js/intro.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/introjs.min.css">
+    <script src="js/functions.js"></script>
     <!--- <script src="js/relationVis.js"></script> -->
 
 </head>
@@ -39,14 +40,20 @@
 		</div>
 	</nav>
 	<div class="content">
-		<a class="btn btn-large btn-normal" id="button" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
+		<div class="row">
+			<div id="tutorial" class="col-md-12">
+				<h2>Hello!</h2>
+				<h3>Before you start, are you insterested in taking a tour?</h3>
+				<h3>It will be nice.<br/>I promisse :-)</h3>
+				<div id="yestutorial" class="col-md-6"><h3>Yes, I do!</h3></div>
+				<div id="notutorial" class="col-md-6"><h3>No, I don't!</h3></div>
+			</div>
+		</div>
 		<div id="loading"><img src="images/loading.gif" alt="Loading..."></div>
 		<div class="row">
 			<div id="gompertzVis" class="col-md-12 top-chart" data-step="1" data-intro='This Visualization shows Gompertz Curve, X-axis shows time and Y axis shows the amount of credit money requested during that time. You can use brush to select timeline to see how credit requests were made during this time.'></div>
 		</div>
 		<div id="viz" class="row">
-			<!--- <div id="creditTypeChart" class="col-md-5"></div> -->
-			<!-- <div class="col-md-4"></div> -->
 			<div id="mapVis" class="col-md-5" data-step="3" data-intro="Brazilian map shows different color based on the number of credit requests made from that state in the time range selected."></div>
 			<div id="entityInfo" class="col-md-2" data-step="2" data-intro="Displays the state name as well as time range selected">
 				<h2 id="infoName">Brazil</h2>
@@ -54,27 +61,15 @@
 			</div>
 			<div id="evolutionVis" class="col-md-5 bottomRow" data-step="4" data-intro="Line Chart shows the credit requests made for particular purpose in the selected time range"></div>
 			<div class="supp" id="row">
-
 				<div id="creditCategoryChart" class="col-md-3 bottomRow"></div>
 				<div id="indexVis" class="col-md-3 bottomRow"></div>
-				
 			</div>
-			<!--- <div id="entityInfo" class="col-md-2">Brazil<br/>Population: 2.3mi</div> -->
 		</div>
 		<div class="row">
 			<div id="creditCategoryChart" class="col-md-2 bottomRow"></div>
 			<div id="evolutionVis" class="col-md-5 bottomRow"></div>
 			<div id="indexVis" class="col-md-2 bottomRow"></div>
-			<!-- <div id="creditCategoryChart" class="col-md-2"></div> -->
-			<!--  <div id="creditTypeChart" class="col-md-2"></div> -->
 		</div>
-		<!-- <div class="row">
-			div>
-				<svg width="1500" height="1500" id="creditorApplicantVis">
-					<g id="links"></g>
-					<g id="nodes"></g>
-				</svg>
-			</div> -->
 	</div>
     <!-- main script -->
 	<script src="js/main.js"></script>

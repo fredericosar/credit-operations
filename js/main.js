@@ -34,7 +34,8 @@
 
 		/* remove loading icon */
 		d3.select("#loading").remove();
-
+		// /* add tutorial page */
+		d3.select("#tutorial").style("display", "block");
 		/* initialize visualization */
 		initialize();
 	}
