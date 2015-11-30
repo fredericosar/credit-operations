@@ -93,6 +93,10 @@ ul {
 	letter-spacing: 5px;
 }
 
+#button {
+	text-align:center;
+}
+
 li {
 	display: inline;
 	margin-left: 50px;
