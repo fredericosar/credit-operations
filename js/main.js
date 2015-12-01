@@ -9,10 +9,12 @@
 	/* json for hdi */
 	var brazilHDI = [];
 	var entitiesHDI = [];
+	/* gompertz data */
+	var gompertzData = [];
 
 	/* brazilian states acronyms */
 	var statesAcronyms = ["ac", "al", "am", "ap", "ba", "ce", "df", "es", "go", "ma", "mg", "ms", "mt", "pa", "pb", "pe", "pi", "pr", "rj", "rn", "ro", "rr", "rs", "sc", "se", "sp", "to"];
-	var states = ["Acré", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceára", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"];
+	var states = ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"];
 	/* date formater */
 	var dateFormater = d3.time.format("%d/%m/%y");
 
@@ -23,14 +25,16 @@
 			.defer(d3.json, 'data/brazil-states.json')
 			.defer(d3.json, 'data/brazil-cities.json')
 			.defer(d3.json, 'data/brazil-hdi.json')
+			.defer(d3.json, 'data/credit-gompertz.json')
 		    .await(dataLoaded);	
 	}
 
-	function dataLoaded(error, _creditOperations, _mapStates, _mapCities, _brazilHDI) {
+	function dataLoaded(error, _creditOperations, _mapStates, _mapCities, _brazilHDI, _gompertzData) {
 		creditOperations = _creditOperations;
 		mapStates = _mapStates;
 		mapCities = _mapCities;
 		brazilHDI = _brazilHDI;
+		gompertzData = _gompertzData;
 
 		/* remove loading icon */
 		d3.select("#loading").remove();
@@ -44,7 +48,7 @@
 		/* event handler */
 		var eventHandler = d3.dispatch("mapClicked", "dateChanged");
 		/* initialize gompertz curve */
-		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations);
+		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations, gompertzData);
 		/* Initialize creditorApplicantRelationVis Node-link diagram */
 		// var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
 		/* initialize map */

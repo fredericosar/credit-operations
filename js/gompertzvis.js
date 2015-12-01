@@ -1,10 +1,13 @@
-function GompertzVis(_parentElement, _eventHandler, _statesAcronyms, _creditOperations) {
+function GompertzVis(_parentElement, _eventHandler, _statesAcronyms, _creditOperations, _gompertzData) {
 	var self = this;
 
 	self.parentElement = _parentElement;
 	self.eventHandler = _eventHandler;
 	self.statesAcronyms = _statesAcronyms;
 	self.creditOperations = _creditOperations;
+	self.gompertzData = _gompertzData;
+
+	self.displayCurve = "AllOps";
 
 	/* initialize operations visualization */
 	self.initialize()
@@ -24,18 +27,18 @@ GompertzVis.prototype.initialize = function () {
 	self.yScale = d3.scale.linear().range([0, 117]);
 
 	/* domain */
-	var minMaxX = d3.extent(d3.entries(self.yearOperations).map(function (d) {
+	self.minMaxX = d3.extent(d3.entries(self.yearOperations).map(function (d) {
         return new Date(d.key);
     }));
-	self.xScale.domain(minMaxX);
+	self.xScale.domain(self.minMaxX);
 
 	var entries = d3.entries(self.yearOperations);
-	var minMaxY = [d3.min(entries, function(d){
+	self.minMaxY = [d3.min(entries, function(d){
 		return d.value.length;
 	}), d3.max(entries, function(d){
 		return d.value.length;
 	})];
-	self.yScale.domain(minMaxY);	
+	self.yScale.domain(self.minMaxY);	
 
 	/* axes */
 	self.xAxis = d3.svg.axis().ticks(15).tickSize(0, 0).scale(self.xScale);
@@ -44,7 +47,7 @@ GompertzVis.prototype.initialize = function () {
 	brushed = function () {
 		/* trigger event for data change */
 		if(self.brush.empty()){
-            self.eventHandler.dateChanged(minMaxX[0], minMaxX[1]);
+            self.eventHandler.dateChanged(self.minMaxX[0], self.minMaxX[1]);
         }else{
             self.eventHandler.dateChanged(self.brush.extent()[0], self.brush.extent()[1]);
         }
@@ -54,24 +57,8 @@ GompertzVis.prototype.initialize = function () {
 	self.brush = d3.svg.brush().on("brush", brushed);
 	self.brush.x(self.xScale);
 
-	/* zoomed function */
-	var zoomed = function (){
-	    console.log("to implement");
-	}
-	/* create zoom */
-	self.zoom = d3.behavior.zoom().scaleExtent([1, 5]).on("zoom", zoomed);
-	self.zoom.x(self.xScale);
-
 	/* gompertz curve */
 	self.svg = self.parentElement.append("svg").attr("id" , "gompertzCurve").attr("width", self.width).attr("height", 150);
-
-	// /* clipping svg */
-	// var clipping = self.svg.append("clipPath")
-	//     .attr("id", "priority-clip") 
-	//     .append("rect")
-	//     .attr("width", self.width)
-	//     .attr("transform", "translate(" + self.width * 0.03 + ", 0)")
-	//     .attr("height", 130);
 
 	/* add axes groups */
 	self.svg.append("g").attr("class", "xAxis axis").attr("transform", "translate(0, 130)");
@@ -79,29 +66,41 @@ GompertzVis.prototype.initialize = function () {
 	/* draw axes */
 	self.svg.select(".xAxis").call(self.xAxis);
 
-	/* draw brush and zoom */
-	self.svg.append("g")
+	/* draw brush */
+	self.g = self.svg.append("g")
 		.attr("class", "brush").call(self.brush)
 	    .selectAll("rect")
-	    .attr("clip-path", "url(#priority-clip)")
-	    .attr("height", 130)
-	    .call(self.zoom)
-        .on("mousedown.zoom", null);
+	    .attr("height", 130);
 
 	/* draw legend */
-	self.svg.append("text")
+	self.textDisplay = self.svg.append("text")
 		.attr("transform", "translate(" + self.width * 0.03 + ", 10)")
 		.style("font-size","9px")
 		.attr("fill", "#fff")
-		.text("Number of Operations per day");
+		.text("Credit Requests per day");
 
 	/* type changer */
-	self.svg.append("text")
+	self.legendDisplay = self.svg.append("text")
 		.attr("transform", "translate(" + self.width * 0.03 + ", 20)")
 		.style("font-size","9px")
 		.attr("fill", "#888")
 		.text(function(){
-			return "[View Gompertz Curve]"
+			if(self.displayCurve == "AllOps") {
+				return "[View Gompertz Function]";
+			} else {
+				return "[View Credit Requests per day]";
+			}
+		})
+		.on("click", function(){
+			if(self.displayCurve == "AllOps") {
+				self.displayCurve = "Gompertz";
+			}else {
+				self.displayCurve = "AllOps";
+			}
+			/* aggregate data */
+			self.aggregateData();
+			/* update bars */
+			self.updateBars();
 		})
 
 	/* append bar group */
@@ -115,12 +114,25 @@ GompertzVis.prototype.initialize = function () {
 GompertzVis.prototype.updateBars = function () {
 	var self = this;
 
+	var entries = d3.entries(self.yearOperations);
+
+	/* update x scale */
+	self.minMaxY = [d3.min(entries, function(d){
+		return d.value;
+	}), d3.max(entries, function(d){
+		return d.value;
+	})];
+	self.yScale.domain(self.minMaxY);	
+
 	/* bar group */
-	var bars = self.bar.selectAll("rect").data(d3.entries(self.yearOperations));
+	var bars = self.bar.selectAll("rect").data(entries);
+
+
+	var formater = d3.time.format("%Y");
 
 	/* draw bars */
 	bars.enter()
-	.append("rect")
+		.append("rect")
 		.attr("y", 0)
 		.attr("height", 0)
 		.attr("width", "0.6")
@@ -132,8 +144,46 @@ GompertzVis.prototype.updateBars = function () {
 	bars.exit().remove();
 
 	bars.attr("height", function(d){
-			return self.yScale(d.value.length);
-		})
+		return self.yScale(d.value);
+	})
+
+	/* update text */
+	self.legendDisplay.text(function(){
+		if(self.displayCurve == "AllOps") {
+			return "[View Gompertz Function]"
+		} else {
+			return "[View Credit Requests per day]"
+		}
+	})
+
+	self.textDisplay.text(function(){
+		if(self.displayCurve == "AllOps") {
+			return "Credit Requests per day"
+		} else {
+			return "Credit Requests on Gompertz Curve"
+		}
+	})
+	
+	if(self.displayCurve == "Gompertz"){
+		/* draw lines */
+		self.line = d3.svg.line()
+			.x(function(d){
+				return self.xScale(new Date(d.value["Date"]));
+			})
+			.y(function(d){
+				return 130 - self.yScale(d.value["Operations"]);
+			});
+
+		self.svg
+			.append("g").attr("id", "lines")
+			.append("path")
+			.datum(d3.entries(self.gompertzData))
+		    .attr("class", "gompertzLine")
+			.attr("d", self.line);
+	} else{
+		d3.select("#lines").remove();
+	}
+
 }
 
 GompertzVis.prototype.updateStateList = function (state) {
@@ -150,18 +200,40 @@ GompertzVis.prototype.aggregateData = function () {
 	var self = this;
 
 	/* aggregate operations by date */
-	self.yearOperations = {};
+	self.yearOperations = [];
 
 	self.creditOperations.forEach(function (d) {
 		/* check if state is on list */
 		if(self.statesAcronyms.indexOf(d["State"].toLowerCase()) != -1){
 			var date = new Date(d["Date"]);
+			// console.log(date);
 			/* create a state key if not present */
 			if (!self.yearOperations.hasOwnProperty(date)) {
-				self.yearOperations[date] = [];
+				self.yearOperations[date] = 1;
+			} else {
+				self.yearOperations[date] = self.yearOperations[date] + 1;
 			}
-			/* save this operation */
-			self.yearOperations[date].push(d);
 		}
 	});
+
+	/* create accumulated array if Gompertz*/
+	if(self.displayCurve == "Gompertz"){
+		/* get first year and initialize accumulated */
+		var year = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)").getFullYear();
+		var accumulated = 0;
+		/* start acumulating */
+		for (var d = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)"); d <= new Date("Wed Oct 21 2015 00:00:00 GMT-0600 (MDT)"); d.setDate(d.getDate() + 1)) {
+			/* reset accumulated if year changes */
+			if(d.getFullYear() != year){
+				year = d.getFullYear();
+				accumulated = 0;
+			}
+			/* accumulate */
+			var dayTotal = self.yearOperations[d];
+			if(dayTotal != undefined){
+				accumulated += self.yearOperations[d];
+				self.yearOperations[d] = accumulated;
+			}
+		}
+	}
 }

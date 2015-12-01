@@ -69,8 +69,6 @@ EvolutionVis.prototype.updateStateList = function (state) {
 	var self = this;
 	/* update state list */
 	self.statesAcronyms = state;
-
-	console.log(self.statesAcronyms);
 	/* aggredate data */
 	self.aggregateData();
 	/* update vis */

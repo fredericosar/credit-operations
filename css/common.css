@@ -102,7 +102,7 @@ ul {
     width: 100%;
 	position: fixed;
 	z-index: 200;
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.85);
     left: 0;
     color: white;
     display: none;
@@ -118,6 +118,12 @@ ul {
 	text-align: center;
 	color: #feb24c;
 	font-size: 15px;
+}
+
+.gompertzLine{
+	fill: none;
+	stroke: #91182b;
+	stroke-width: 0.7px;
 }
 
 li {
