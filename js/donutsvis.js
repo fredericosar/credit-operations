@@ -1,11 +1,9 @@
-function DonutsVis(_statesAcronyms, _creditOperations) {
+function DonutsVis(_statesAcronyms, _creditOperations, _filterBy) {
 	var self = this;
 	
 	self.statesAcronyms = _statesAcronyms;
 	self.creditOperations = _creditOperations;
-
-	/* define type of donut chart */
-	self.filterBy = "Category";
+	self.filterBy = _filterBy;
 
 	/* initialize operations visualization */
 	self.initialize()
@@ -22,9 +20,21 @@ DonutsVis.prototype.initialize = function () {
 	/* agregate Data */
 	self.aggregateData();
 
+	/* location */
+	if(self.filterBy == "Category") {
+		self.divId = "#creditCategoryChart";
+	}
+
+	if(self.filterBy == "Creditor's type"){
+		self.divId = "#creditTypeChart";
+	}
+
 	/* C3 Library - Pie Chart */
 	self.chart = c3.generate({
-		bindto: "#creditCategoryChart",
+		bindto: self.divId,
+		size: {
+			width: 380
+		},
 		data: {
 			json: self.creditorType,
 			type : 'donut'
@@ -42,35 +52,18 @@ DonutsVis.prototype.initialize = function () {
         	}
         },
         legend: {
+            // show: false
             position: 'right'
         }
 	});
 
 	/* change chart */
-	d3.select("#creditCategoryChart")
+	d3.select(self.divId)
 		.selectAll("svg")
 		.append("text")
 		.attr("transform", "translate(7, 190)")
 		.style("font-size","9px")
-		.attr("fill", "#777")
-		.text(function(){
-			if(self.filterBy == "Category") {
-				return "Who lent the money?";
-			} else {
-				return "Where was the money invested?";
-			}
-		})
-		.on("click", function(){
-			if(self.filterBy == "Category") {
-				self.filterBy = "Creditor's type";
-			}else {
-				self.filterBy = "Category";
-			}
-			/* destroy donut */
-			self.chart.destroy();
-			/* update donut */
-			self.initialize();
-		})
+		.attr("fill", "#777");
 
 }
 

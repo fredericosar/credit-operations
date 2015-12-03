@@ -1,7 +1,9 @@
+/* body */
 body {
 	background-color: #333 !important;
 }
 
+/* main menu */
 .menu {
 	background-color: #333 !important;
 	border-bottom: solid 1px #fff;
@@ -9,121 +11,10 @@ body {
 	color: #feb24c !important;
 }
 
-.top-chart {
-	background-color: #555;
-}
-
-.content {
-	padding-top: 34px;
-}
-
-.scale {
-	text-transform: uppercase;
-	font-size: 8px;
-	letter-spacing: 2px;
-}
-
-.axis line,
-.axis path {
-    fill: none;
-    stroke: #fff;
-    shape-rendering: crispEdges;
-}
-
-.axis text {
-	font-family: Armata, Helvetica, Arial, sans;
-    font-size: 10px;
-    fill: #fff;
-}
-
-.brush{
-    fill: #474646;
-    fill-opacity: .5;
-    pointer-events: none;
-	border: solid 1px #fff;
-}
-
-.brush rect{
-	stroke: #fff;
-}
-
-#loading img {
-	display: block;
-	padding-top: 200px;
-	padding-bottom: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-.bottomRow {
-	height: 200px;
-	/*margin-top: -150px;*/
-} 
-
-
-#entityInfo {
-	margin-top: 10px;
-	margin-left: 20px;
-	margin-right: -20px;
-	height: 100px;
-    background-color: #555;
-	border: 1px solid;
-    border-radius: 0.5em;
-    font-family: Armata, Helvetica, Arial, sans;
-}
-
-#entityInfo h2 {
-	margin: 10px 0 0 0 !important;
-	color: #feb24c;
-	letter-spacing: 5px;
-    font-size: 18px;
-	text-align: center; 
-}
-
-#entityInfo h3 {
-	color: #feb24c;
-	text-align: center; 
-    font-size: 13px;
-}
-
 ul {
 	text-align: center;
 	font-size: 13px;
 	letter-spacing: 5px;
-}
-
-#button {
-	text-align:center;
-}
-
-#tutorial{
-	height: 100%;
-    width: 100%;
-	position: fixed;
-	z-index: 200;
-	background: rgba(0, 0, 0, 0.85);
-    left: 0;
-    color: white;
-    display: none;
-}
-
-#tutorial h2{
-	margin-top: 40px;
-	text-align: center;
-	color: #feb24c;
-}
-
-#tutorial h3{
-	text-align: center;
-	color: #feb24c;
-	font-size: 15px;
-}
-
-.gompertzLine{
-	fill: none;
-	stroke: #91182b;
-	stroke-width: 0.7px;
 }
 
 li {
@@ -137,20 +28,16 @@ a:link, a:visited, a:active a:hover {
 	color: #feb24c !important;
 }
 
-.node {
-	stroke: #fff;
-	stroke-width: 1.5px;
+/* container */
+.container-fluid {
+	padding-top: 34px;
 }
 
-.link {
-	stroke: #999;
-	stroke-opacity: .6;
-}
-
-#viz{
-	padding: 20px;
-}
-
-.supp {
-	padding: 20px;
+/* loading data */
+#loading img {
+	display: block;
+	padding-top: 200px;
+	padding-bottom: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }

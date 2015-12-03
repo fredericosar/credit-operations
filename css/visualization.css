@@ -1,0 +1,99 @@
+/* common used on charts */
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: Armata, Helvetica, Arial, sans;
+    font-size: 10px;
+    fill: #fff;
+}
+
+/* tutorial */
+#tutorial{
+	height: 100%;
+    width: 100%;
+	position: fixed;
+	z-index: 200;
+	background: rgba(0, 0, 0, 0.85);
+    left: 0;
+    color: white;
+    display: none;
+}
+
+#tutorial h2{
+	margin-top: 40px;
+	text-align: center;
+	color: #feb24c;
+}
+
+#tutorial h3{
+	text-align: center;
+	color: #feb24c;
+	font-size: 15px;
+}
+
+/* gompertz chart */
+.gompertz-chart {
+	background-color: #555;
+}
+
+.gompertzLine{
+	fill: none;
+	stroke: #91182b;
+	stroke-width: 0.9px;
+}
+
+.brush{
+	fill: #474646;
+    fill-opacity: .5;
+    pointer-events: none;
+	border: solid 1px #fff;
+}
+
+.brush rect{
+	stroke: #fff;
+}
+
+/* entity information */
+#entityInfo {
+	margin-top: 10px;
+	height: 100px;
+    background-color: #555;
+	border: 1px solid;
+    border-radius: 0.5em;
+    font-family: Armata, Helvetica, Arial, sans;
+}
+
+#entityInfo h2 {
+	margin: 10px 0 0 0 !important;
+	color: #feb24c;
+	letter-spacing: 5px;
+    font-size: 18px;
+	text-align: center; 
+}
+
+#entityInfo h3 {
+	color: #feb24c;
+	text-align: center; 
+    font-size: 13px;
+}
+
+/* row sizes */
+.firstRow {
+	height: 165px;
+	margin-top: -550px;
+}
+
+.secondRow {
+	height: 165px;
+	margin-top: -380px;
+}
+
+.lastRow {
+	height: 200px;
+	margin-top: -150px;
+}

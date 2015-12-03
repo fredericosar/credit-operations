@@ -19,7 +19,7 @@ MapVis.prototype.initialize = function () {
 	var self = this;
 
 	/* map dimensions */
-	self.width = 600;
+	self.width = $("#mapVis").width();
 	self.height = 500;
 
 	/* get date range */
@@ -49,7 +49,7 @@ MapVis.prototype.initialize = function () {
 	self.projection = d3.geo.mercator()
 		.precision(.1)
 		.center([-54, -15])	
-		.scale(700)
+		.scale(650)
 		.translate([self.width / 2, self.height / 2]);
 
 	/* path generator */
