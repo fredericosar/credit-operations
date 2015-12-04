@@ -23,16 +23,14 @@
 		queue()	
 			.defer(d3.json, 'data/credit-operations.json')
 			.defer(d3.json, 'data/brazil-states.json')
-			.defer(d3.json, 'data/brazil-cities.json')
 			.defer(d3.json, 'data/brazil-hdi.json')
 			.defer(d3.json, 'data/credit-gompertz.json')
 		    .await(dataLoaded);	
 	}
 
-	function dataLoaded(error, _creditOperations, _mapStates, _mapCities, _brazilHDI, _gompertzData) {
+	function dataLoaded(error, _creditOperations, _mapStates, _brazilHDI, _gompertzData) {
 		creditOperations = _creditOperations;
 		mapStates = _mapStates;
-		mapCities = _mapCities;
 		brazilHDI = _brazilHDI;
 		gompertzData = _gompertzData;
 

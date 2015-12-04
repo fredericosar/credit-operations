@@ -9,6 +9,9 @@ function GompertzVis(_parentElement, _eventHandler, _statesAcronyms, _creditOper
 
 	self.displayCurve = "AllOps";
 
+	/* aggregate data */
+	self.aggregateData();
+
 	/* initialize operations visualization */
 	self.initialize()
 }
@@ -18,9 +21,6 @@ GompertzVis.prototype.initialize = function () {
 
 	/* map dimensions */
 	self.width = $("#gompertzVis").width();
-
-	/* aggregate data */
-	self.aggregateData();
 
 	/* scales */
 	self.xScale = d3.time.scale().range([0, self.width]);
@@ -110,6 +110,7 @@ GompertzVis.prototype.initialize = function () {
 			}
 			/* aggregate data */
 			self.aggregateData();
+			console.log(self.yearOperations);
 			/* update bars on click */
 			self.updateBars();
 		})
@@ -132,8 +133,6 @@ GompertzVis.prototype.updateBars = function () {
 
 	/* bar group */
 	var bars = self.bar.selectAll("rect").data(entries);
-
-	var formater = d3.time.format("%Y");
 
 	/* draw bars */
 	bars.enter()
@@ -174,6 +173,7 @@ GompertzVis.prototype.updateBars = function () {
 		}
 	})
 
+	/* gompertz curve */
 	if(self.displayCurve == "Gompertz" && self.statesAcronyms.length != 1){
 		/* draw lines */
 		self.line = d3.svg.line()
