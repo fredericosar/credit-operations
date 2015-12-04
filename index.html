@@ -4,26 +4,44 @@
     <meta charset="UTF-8">
     <title>Brazil: Credit operations in the public sector and the HDI</title>
 
+    <!-- libs -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
     <!-- style -->
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.css">
-
 </head>
 <body>
-	<nav class="navbar navbar-fixed-top">
+	<nav class="navbar navbar-fixed-top" role="navigation">
 		<div class="menu">
+			<ul>
 			<ul>
 				<li>Home</li>
 				<li><a href="visualization.html">Visualization</a></li>
-				<li>About</li>
+				<li><a href="about.html">About</a></li>
 			</ul>
 		</div>
 	</nav>
-	<div class="content">
-		<div id="brasilia">
-			Brazil		
+	<!-- Container -->
+	<div class="container-fluid">
+		<div class="row">
+			<img id="brazil" class="center fit" src="images/brazil.jpg"> 
+			<p id="title">Brazil:<br/>Credit Operations in the Public Sector and the Human Development Index</p>
+			<div class="col-md-4 flag" style="background-color: #00a859"></div>
+			<div class="col-md-4 flag" style="background-color: #ffcc29">
+				<div id="how-it-works"> 
+				How does it work?
+				<iframe width="420" height="315" src="https://www.youtube.com/embed/PTomUb3r1m0" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+			<div class="col-md-4 flag" style="background-color: #3e4095"></div>
 		</div>
 	</div>
+	<!-- Fix Image -->
+	<script>
+		$("#brazil").width($(".container-fluid").width() + 30);
+		$("#title").width($(".container-fluid").width());
+    </script>
 </body>
 </html>
