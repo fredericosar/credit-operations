@@ -14,7 +14,7 @@
 
 	/* brazilian states acronyms */
 	var statesAcronyms = ["ac", "al", "am", "ap", "ba", "ce", "df", "es", "go", "ma", "mg", "ms", "mt", "pa", "pb", "pe", "pi", "pr", "rj", "rn", "ro", "rr", "rs", "sc", "se", "sp", "to"];
-	var states = ["Acre", "Alagoas", "Amazonas", "Amapa", "Bahia", "Ceara", "Distrito Federal", "Espirito Santo", "Goias", "Maranhao", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Para", "Paraiba", "Pernambuco", "Piaui", "Parana", "Rio de Janeiro", "Rio Grande do Norte", "Rondonia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "Sao Paulo", "Tocantins"];
+	var statesNames = ["Acre", "Alagoas", "Amazonas", "Amapa", "Bahia", "Ceara", "Distrito Federal", "Espirito Santo", "Goias", "Maranhao", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Para", "Paraiba", "Pernambuco", "Piaui", "Parana", "Rio de Janeiro", "Rio Grande do Norte", "Rondonia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "Sao Paulo", "Tocantins"];
 	/* date formater */
 	var dateFormater = d3.time.format("%d/%m/%y");
 
@@ -36,56 +36,103 @@
 		brazilHDI = _brazilHDI;
 		gompertzData = _gompertzData;
 
+		/* get date range */
+		minMaxDate = d3.extent(d3.entries(creditOperations).map(function (d) {
+			return new Date(d.value["Date"]);
+		}));
+		/* create selected states */
+		self.selectedState = statesAcronyms;
+		/* agregate */
+		agregate();
 		/* remove loading icon */
 		d3.select("#loading").remove();
-		// /* add tutorial page */
+		/* add tutorial page */
 		d3.select("#tutorial").style("display", "block");
 		/* initialize visualization */
 		initialize();
 	}
 
+	function agregate(){
+		self.filteredOperations = [];
+
+		creditOperations.forEach(function (d) {
+			/* check if state is selected */
+			if(self.selectedState.indexOf(d["State"].toLowerCase()) != -1){
+				/* get date from operation */
+				var date = new Date(d["Date"]);
+				/* check if under the selected time */
+				if(date <= self.minMaxDate[1] && date >= self.minMaxDate[0]){
+					filteredOperations.push(d);
+				}
+			}
+		});
+	}
+
 	function initialize() {
 		/* event handler */
-		var eventHandler = d3.dispatch("mapClicked", "dateChanged");
+		var eventHandler = d3.dispatch("mapClicked", "dateChanged", "reset");
 		/* initialize gompertz curve */
 		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations, gompertzData);
 		/* Initialize creditorApplicantRelationVis Node-link diagram */
 		// var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
+		
 		/* initialize map */
-		var mapVis = new MapVis(d3.select("#mapVis"), eventHandler, statesAcronyms, creditOperations, mapStates);
+		var mapVis = new MapVis(d3.select("#mapVis"), eventHandler, statesAcronyms, filteredOperations, mapStates);
 		/* initialize credit operations category */
-		var creditCategoryVis = new DonutsVis(statesAcronyms, creditOperations, "Category");
+		var creditCategoryVis = new DonutsVis(statesAcronyms, filteredOperations, "Category");
 		/* initialize credit operations type */
-		var creditTypeChart = new DonutsVis(statesAcronyms, creditOperations, "Creditor's type");
-		/* initialize credit evolution operations */
-		var evolutionVis = new EvolutionVis(statesAcronyms, creditOperations);
+		var creditTypeChart = new DonutsVis(statesAcronyms, filteredOperations, "Creditor's type");
 		/* initialize human index  */
-		var indexVis = new IndexVis(statesAcronyms, states, brazilHDI);
+		var indexVis = new IndexVis(statesAcronyms, statesNames, brazilHDI);
+		/* initialize credit evolution operations */
+		var evolutionVis = new EvolutionVis(statesAcronyms, filteredOperations);
 
 		/* click event */
-		eventHandler.on("mapClicked", function(state){
+		eventHandler.on("mapClicked", function(states){
+			self.selectedState = states;
+			/* agregate data again */
+			agregate();
 			/* update info box */
-			d3.select("#infoName").html(states[statesAcronyms.indexOf(state)]);
-			/* update gompertz curve */
-			gompertzVis.updateStateList([state]);
-			/* update credit category type */
-			// creditCategoryVis.updateStateList([state]);
-			/* update evolution chart */
-			evolutionVis.updateStateList([state]);
+			if(states.length == 1){
+				d3.select("#infoName").html(statesNames[statesAcronyms.indexOf(states[0])]);
+			} else {
+				d3.select("#infoName").html("Brazil");
+			}
+			d3.select("#infoRequests").html("Number of Credit Requests: " + filteredOperations.length);
+			/* update map */
+			mapVis.updateOperations(self.filteredOperations);
+			/* update credit category */
+			creditCategoryVis.updateOperations(self.filteredOperations);
+			/* update credit type */
+			creditTypeChart.updateOperations(self.filteredOperations);
 			/* update index chart */
-			indexVis.updateStateList(states[statesAcronyms.indexOf(state)]);
+			var indexNames = [];
+			if(states.length == 1){
+				indexNames.push(statesNames[statesAcronyms.indexOf(states[0])]);
+			}
+			indexVis.updateStateList(indexNames);
+			/* update evolution chart */
+			evolutionVis.updateOperations(self.filteredOperations);
+		// 	/* update gompertz curve */
+		// 	gompertzVis.updateStateList([state]);
 		});
 
-		/* data event */
+		/* data change event */
 		eventHandler.on("dateChanged", function(startingDate, endingDate){
+			self.minMaxDate[0] = startingDate;
+			self.minMaxDate[1] = endingDate;
 			/* update info box */
-			// d3.select("#infoDates").html(dateFormater(startingDate) + " to " + dateFormater(endingDate));
+			d3.select("#infoDates").html("From " + dateFormater(startingDate) + " to " + dateFormater(endingDate));
+			/* agregate data again */
+			agregate();
 			/* update map */
-			// mapVis.updateDate(startingDate, endingDate);
+			mapVis.updateOperations(self.filteredOperations);
 			/* update credit category type */
-			// creditCategoryVis.updateDate(startingDate, endingDate);
-			/* update evolution  */
-			// evolutionVis.updateDate(startingDate, endingDate);
+			creditCategoryVis.updateOperations(self.filteredOperations);
+			/* update credit type */
+			creditTypeChart.updateOperations(self.filteredOperations);
+		// 	/* update evolution  */
+		// 	evolutionVis.updateDate(startingDate, endingDate);
 		});
 
 	}

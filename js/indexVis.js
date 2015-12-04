@@ -8,7 +8,7 @@ function IndexVis(_statesAcronyms, _states, _brazilHDI) {
 	/* display states */
 	self.displayStates = self.states.slice();
 	self.displayStates.push("Brazil");
-	
+
 	/* initialize operations visualization */
 	self.initialize()
 }
@@ -16,10 +16,10 @@ function IndexVis(_statesAcronyms, _states, _brazilHDI) {
 IndexVis.prototype.initialize = function () {
 	var self = this;
 
-	/* get date range */
-	self.minMaxDate = d3.extent(d3.entries(self.creditOperations).map(function (d) {
-		return new Date(d.value["Date"]);
-	}));
+	/* color scale */
+	var colorScale = d3.scale.linear()
+        .domain([0.3, 0.739])
+        .range(["#fee5d9","#99000d"]);
 
 	/* C3 Library - Line Chart */
 	self.chart = c3.generate({
@@ -30,7 +30,14 @@ IndexVis.prototype.initialize = function () {
 	        	x: "Year",
 	        	value: self.displayStates
 	        },
-	        type: 'bar'
+	        type: 'bar',
+	        color: function (color, data) {
+	        	if(data.id == "Brazil") {
+	        		return "#fcb04c";
+	        	} else {
+	        		return colorScale(data.value);
+	        	}
+	        }
 	    },
 	    axis: {
 	    	x: {
@@ -52,7 +59,6 @@ IndexVis.prototype.initialize = function () {
 
 IndexVis.prototype.updateChart = function () {
 	var self = this;
-
 	/* hide everything */
 	self.chart.hide(self.states);
 	/* show new entity */
@@ -61,10 +67,8 @@ IndexVis.prototype.updateChart = function () {
 
 IndexVis.prototype.updateStateList = function (entities) {
 	var self = this;
-
 	/* update paralel state */
 	self.entities = entities;
-
 	/* update vis */
 	self.updateChart();
 }

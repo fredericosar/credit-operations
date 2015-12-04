@@ -92,6 +92,7 @@ GompertzVis.prototype.initialize = function () {
 			}
 		})
 		.on("click", function(){
+			// alert(self.displayCurve);
 			if(self.displayCurve == "AllOps") {
 				self.displayCurve = "Gompertz";
 			}else {
