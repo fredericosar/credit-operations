@@ -119,7 +119,7 @@ MapVis.prototype.initialize = function () {
     self.minOps = self.scaleRect
 		.append("text")
 		.attr("transform", "translate(418, 480)")
-		.text(self.minMaxOperations[0])
+		.text(1)
 		.style("font-size","9px")
 		.attr("fill", "#fff");
 }

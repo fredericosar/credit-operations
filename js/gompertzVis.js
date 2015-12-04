@@ -25,20 +25,28 @@ GompertzVis.prototype.initialize = function () {
 	/* scales */
 	self.xScale = d3.time.scale().range([0, self.width]);
 	self.yScale = d3.scale.linear().range([0, 120]);
+	self.yScaleGompertz = d3.scale.linear().range([0, 120]);
 
-	/* domain */
+
+	/* x */
 	self.minMaxX = d3.extent(d3.entries(self.yearOperations).map(function (d) {
 		return new Date(d.key);
     }));
 	self.xScale.domain(self.minMaxX);
 
+	/* y */
 	var entries = d3.entries(self.yearOperations);
-	self.minMaxY = [d3.min(entries, function(d){
-		return d.value.length;
-	}), d3.max(entries, function(d){
-		return d.value.length;
+	self.minMaxY = [0, d3.max(entries, function(d){
+		return d.value;
 	})];
-	self.yScale.domain(self.minMaxY);	
+	self.yScale.domain(self.minMaxY);
+
+	/* y gompertz */
+	var entries = d3.entries(self.gompertzData);
+	self.minMaxYGompertz = [0, d3.max(entries, function(d){
+		return d.value["Operations"];
+	})];
+	self.yScaleGompertz.domain(self.minMaxYGompertz);	
 
 	/* axes */
 	self.xAxis = d3.svg.axis().ticks(15).tickSize(0, 0).scale(self.xScale);
@@ -72,6 +80,9 @@ GompertzVis.prototype.initialize = function () {
 	    .selectAll("rect")
 	    .attr("height", 130);
 
+	/* append bar group */
+	self.bar = self.svg.append("g").attr("id", "bars").attr("transform", "translate(0, 129) scale(1 -1)");
+
 	/* draw legend */
 	self.textDisplay = self.svg.append("text")
 		.attr("transform", "translate(0, 10)")
@@ -92,7 +103,6 @@ GompertzVis.prototype.initialize = function () {
 			}
 		})
 		.on("click", function(){
-			// alert(self.displayCurve);
 			if(self.displayCurve == "AllOps") {
 				self.displayCurve = "Gompertz";
 			}else {
@@ -100,12 +110,9 @@ GompertzVis.prototype.initialize = function () {
 			}
 			/* aggregate data */
 			self.aggregateData();
-			/* update bars */
+			/* update bars on click */
 			self.updateBars();
 		})
-
-	/* append bar group */
-	self.bar = self.svg.append("g").attr("id", "bars").attr("transform", "translate(0, 129) scale(1 -1)");
 
 	/* update bars */
 	self.updateBars();
@@ -118,9 +125,7 @@ GompertzVis.prototype.updateBars = function () {
 	var entries = d3.entries(self.yearOperations);
 
 	/* update x scale */
-	self.minMaxY = [d3.min(entries, function(d){
-		return d.value;
-	}), d3.max(entries, function(d){
+	self.minMaxY = [0, d3.max(entries, function(d){
 		return d.value;
 	})];
 	self.yScale.domain(self.minMaxY);	
@@ -144,8 +149,11 @@ GompertzVis.prototype.updateBars = function () {
 	bars.exit().remove();
 
 	bars.attr("height", function(d){
-		return self.yScale(d.value);
-	})
+			return self.yScale(d.value);
+		})
+		.attr("x", function(d){
+			return self.xScale(new Date(d.key));
+		})
 
 	/* update text */
 	self.legendDisplay.text(function(){
@@ -165,7 +173,7 @@ GompertzVis.prototype.updateBars = function () {
 			return "Credit Requests on Gompertz Curve"
 		}
 	})
-	
+
 	if(self.displayCurve == "Gompertz" && self.statesAcronyms.length != 1){
 		/* draw lines */
 		self.line = d3.svg.line()
@@ -173,7 +181,7 @@ GompertzVis.prototype.updateBars = function () {
 				return self.xScale(new Date(d.value["Date"]));
 			})
 			.y(function(d){
-				return 130 - self.yScale(d.value["Operations"]);
+				return 130 - self.yScaleGompertz(d.value["Operations"]);
 			});
 
 		self.svg
@@ -185,7 +193,6 @@ GompertzVis.prototype.updateBars = function () {
 	} else{
 		d3.select("#lines").remove();
 	}
-
 }
 
 GompertzVis.prototype.updateStateList = function (state) {
@@ -220,7 +227,7 @@ GompertzVis.prototype.aggregateData = function () {
 	/* create accumulated array if Gompertz*/
 	if(self.displayCurve == "Gompertz" && self.statesAcronyms.length != 1){
 		/* get first year and initialize accumulated */
-		var year = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)").getFullYear();
+		var year = 2002;
 		var accumulated = 0;
 		/* start acumulating */
 		for (var d = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)"); d <= new Date("Wed Oct 21 2015 00:00:00 GMT-0600 (MDT)"); d.setDate(d.getDate() + 1)) {

@@ -66,8 +66,6 @@ EvolutionVis.prototype.filter = function () {
 		}
 		self.categoryOperations.push(entry);
 	}
-
-	console.log(self.categoryOperations);
 }
 
 EvolutionVis.prototype.updateOperations = function (operations) {

@@ -113,26 +113,27 @@
 			indexVis.updateStateList(indexNames);
 			/* update evolution chart */
 			evolutionVis.updateOperations(self.filteredOperations);
-		// 	/* update gompertz curve */
-		// 	gompertzVis.updateStateList([state]);
+			/* update gompertz curve */
+			gompertzVis.updateStateList(states);
 		});
 
 		/* data change event */
 		eventHandler.on("dateChanged", function(startingDate, endingDate){
 			self.minMaxDate[0] = startingDate;
 			self.minMaxDate[1] = endingDate;
-			/* update info box */
-			d3.select("#infoDates").html("From " + dateFormater(startingDate) + " to " + dateFormater(endingDate));
 			/* agregate data again */
 			agregate();
+			/* update info box */
+			d3.select("#infoDates").html("From " + dateFormater(startingDate) + " to " + dateFormater(endingDate));
+			d3.select("#infoRequests").html("Number of Credit Requests: " + filteredOperations.length);
 			/* update map */
 			mapVis.updateOperations(self.filteredOperations);
 			/* update credit category type */
 			creditCategoryVis.updateOperations(self.filteredOperations);
 			/* update credit type */
 			creditTypeChart.updateOperations(self.filteredOperations);
-		// 	/* update evolution  */
-		// 	evolutionVis.updateDate(startingDate, endingDate);
+			/* update evolution  */
+			evolutionVis.updateOperations(self.filteredOperations);
 		});
 
 	}
