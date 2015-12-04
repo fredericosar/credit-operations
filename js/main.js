@@ -73,7 +73,6 @@
 		var gompertzVis = new GompertzVis(d3.select("#gompertzVis"), eventHandler, statesAcronyms, creditOperations, gompertzData);
 		/* Initialize creditorApplicantRelationVis Node-link diagram */
 		// var creditorApplicantVis = new CreditorApplicantRelationVis(d3.select("#creditorApplicantVis"), eventHandler, statesAcronyms, creditOperations);
-		
 		/* initialize map */
 		var mapVis = new MapVis(d3.select("#mapVis"), eventHandler, statesAcronyms, filteredOperations, mapStates);
 		/* initialize credit operations category */

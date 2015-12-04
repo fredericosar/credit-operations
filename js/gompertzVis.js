@@ -9,6 +9,9 @@ function GompertzVis(_parentElement, _eventHandler, _statesAcronyms, _creditOper
 
 	self.displayCurve = "AllOps";
 
+		/* initialize time for autoplay */
+	self.endingDate = new Date("Wed Oct 21 2015 00:00:00 GMT-0600 (MDT)");
+
 	/* aggregate data */
 	self.aggregateData();
 
@@ -110,10 +113,31 @@ GompertzVis.prototype.initialize = function () {
 			}
 			/* aggregate data */
 			self.aggregateData();
-			console.log(self.yearOperations);
 			/* update bars on click */
 			self.updateBars();
 		})
+
+     self.svg.append("svg:image")
+     	.attr("xlink:href", "images/play.png")
+     	.attr('x',-9)
+     	.attr('y',-12)
+     	.attr('width', 13)
+     	.attr('height', 13)
+     	.attr("transform", "translate(10, 145)")
+     	.on("click", function(){
+     		self.autoPlay();
+		});
+
+     self.svg.append("svg:image")
+     	.attr("xlink:href", "images/stop.png")
+     	.attr('x',-9)
+     	.attr('y',-12)
+     	.attr('width', 13)
+     	.attr('height', 13)
+     	.attr("transform", "translate(23, 145)")
+     	.on("click", function(){
+     		self.stopPlaying();
+		});
 
 	/* update bars */
 	self.updateBars();
@@ -205,6 +229,46 @@ GompertzVis.prototype.updateStateList = function (state) {
 	self.updateBars();
 }
 
+GompertzVis.prototype.autoPlay = function () {
+	var self = this;
+
+	/* dates */
+	self.startingDate = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)");
+	self.endingDate = new Date("Tue Mar 19 2002 00:00:00 GMT-0700 (MST)");
+	self.finalDate = new Date("Wed Oct 21 2015 00:00:00 GMT-0600 (MDT)");
+
+	/* check if should stop */
+	self.keepPlaying = true;
+
+	function updateDay() {
+		if(self.keepPlaying){
+			setTimeout(changeDate, 10);
+	    }
+	}
+
+	function changeDate() {
+		self.eventHandler.dateChanged(self.startingDate, self.endingDate);
+		self.endingDate.setDate(self.endingDate.getDate() + 15);
+		if(self.endingDate < self.finalDate){
+	    	updateDay();
+	    	self.aggregateData();
+	    	self.updateBars();
+	    }
+	}
+
+	updateDay();
+}
+
+GompertzVis.prototype.stopPlaying = function () {
+	var self = this;
+	self.keepPlaying = false;
+	self.endingDate = self.finalDate;
+	/* aggregate data */
+	setTimeout(self.aggregateData(), 1000);
+	/* update bars on click */
+	setTimeout(self.updateBars(), 1200);
+}
+
 GompertzVis.prototype.aggregateData = function () {
 	var self = this;
 
@@ -215,11 +279,14 @@ GompertzVis.prototype.aggregateData = function () {
 		/* check if state is on list */
 		if(self.statesAcronyms.indexOf(d["State"].toLowerCase()) != -1){
 			var date = new Date(d["Date"]);
-			/* create a state key if not present */
-			if (!self.yearOperations.hasOwnProperty(date)) {
-				self.yearOperations[date] = 1;
-			} else {
-				self.yearOperations[date] = self.yearOperations[date] + 1;
+			/* filter date by autoplay */
+			if(date <= self.endingDate){
+				/* create a state key if not present */
+				if (!self.yearOperations.hasOwnProperty(date)) {
+					self.yearOperations[date] = 1;
+				} else {
+					self.yearOperations[date] = self.yearOperations[date] + 1;
+				}
 			}
 		}
 	});
