@@ -15,11 +15,11 @@ ul {
 	text-align: center;
 	font-size: 13px;
 	letter-spacing: 5px;
+	padding-left: 0px;
 }
 
 li {
 	display: inline;
-	margin-left: 50px;
 	margin-right: 50px;
 }
 
