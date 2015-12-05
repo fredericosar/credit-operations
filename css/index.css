@@ -1,22 +1,28 @@
+#brazil {
+	background-image: url("../images/brazil.jpg");
+	height: 474px;
+}
+
 #title {
-	z-index: 100;
-	position: absolute;
 	text-align: center;
 	color: white;
 	font-size: 25px;
 	font-weight: bold;
-	top: 70px;
+	top: 10px;
 	text-shadow: 1.5px 1px #3e4095;
 }
 
 #bridge {
-	z-index: 100;
 	position: absolute;
-	text-align: right;
+	bottom: 1%;
+	right: 1%;
 	color: white;
 	font-size: 10px;
-	top: 430px;
 	text-shadow: 1.5px 1px #3e4095;
+}
+
+#goVis {
+	width: 100%;
 }
 .flag {
 	height: 20px;
