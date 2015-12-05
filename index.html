@@ -13,37 +13,31 @@
     <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap.css">
 </head>
 <body>
-	<nav class="navbar navbar-fixed-top" role="navigation">
-		<div class="menu">
-			<ul>
-			<ul>
-				<li>Home</li>
-				<li><a href="visualization.html">Visualization</a></li>
-			</ul>
-		</div>
-	</nav>
 	<!-- Container -->
 	<div class="container-fluid">
 		<div class="row">
 			<img id="brazil" class="center fit" src="images/brazil.jpg"> 
 			<p id="title">Brazil:<br/>Credit Operations in the Public Sector and the Human Development Index</p>
+			<p id="bridge">Juscelino Kubitschek bridge - Brasilia</p>
 			<div class="col-md-4 flag" style="background-color: #00a859">
 				<div class="info-bar why">Credit Operations</div>
-			</div>
+				<div class="info-text">This work intends to show relationships between credit operations on the Brazilian public sector and the Human Development Index. The idea is to facilitate the understanding of credit operations so the user can have thoughtful insights about the characteristics of the federated Brazilian entities' loans and the development of the country. Credit requests are the way that cities and states have to fund achievements of goals that would not be possible in the present time without the financial operation (which can be also understood as a loan), since local governments in Brazil are not allowed to issue bonds.<br/><br/>We believe our tool can be a great resource. Enjoy it!</div>
+				</div>
 			<div class="col-md-4 flag" style="background-color: #ffcc29">
 				<div class="info-bar how">How does it work?</div>
 				<iframe width="420" height="315" src="https://www.youtube.com/embed/PTomUb3r1m0" frameborder="0" allowfullscreen></iframe>
 			</div>
 			<div class="col-md-4 flag" style="background-color: #3e4095">
 				<div class="info-bar who">About it</div>
-				<div class="info-text">This Visualization was idealized and built by Frederico Rocha, Anil Kumar Krishna, and Anil Kumar Mallapur, graduate students at the University of Utah. It is the final project for the Visualization course.<br/>The research used as the main source of information about Brazilian Credit Operations is the "Brazilian Public Sector's Loan Dynamics: Evolution, Impacts and Prospects, Rocha L., 2015", an awarded thesis during the Magis Award, promoted by the Brazilian National Treasury. <br/>The credit data is provided by the <a href="http://sadipem.tesouro.gov.br">Brazilian Treasury Secretariat</a>, <a href="http://www.pnud.org.br/atlas/ranking/Ranking-IDHM-Municipios-2000.aspx">The United Nations</a>, and the <a href="http://dados.gov.br/">Brazilian Public Data</a> site.</div>
+				<div class="info-text">This Visualization was idealized and built by Frederico Rocha, Anil Kumar Krishna, and Anil Kumar Mallapur, graduate students at the University of Utah. It is the final project for the Data Visualization course.<br/>The research used as the main source of information about Brazilian Credit Operations is the "Brazilian Public Sector's Loan Dynamics: Evolution, Impacts and Prospects, Rocha L., 2015", an awarded thesis at the 1st Magis Award, promoted by the Brazilian National Treasury, in partnership with the World Bank Group and the Ècole Nationale d'Administration.<br/>The credit data is provided by the <a href="http://sadipem.tesouro.gov.br">Brazilian Treasury Secretariat</a>, <a href="http://www.pnud.org.br/atlas/ranking/Ranking-IDHM-Municipios-2000.aspx">The United Nations</a>, and the <a href="http://dados.gov.br/">Brazilian Public Data</a> site.</div>
 			</div>
 		</div>
 	</div>
 	<!-- Fix Image -->
 	<script>
 		$("#brazil").width($(".container-fluid").width() + 30);
-		$("#title").width($(".container-fluid").width());
+		$("#bridge").width($(".container-fluid").width() + 30);
+		$("#title").width($(".container-fluid").width() + 30);
     </script>
 </body>
 </html>

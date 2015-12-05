@@ -5,7 +5,16 @@
 	color: white;
 	font-size: 25px;
 	font-weight: bold;
-	top: 70px;
+	top: 10px;
+	text-shadow: 1.5px 1px #3e4095;
+}
+#bridge {
+	z-index: 100;
+	position: absolute;
+	text-align: right;
+	color: white;
+	font-size: 10px;
+	top: 400px;
 	text-shadow: 1.5px 1px #3e4095;
 }
 .flag {
