@@ -35,14 +35,12 @@
 	<nav class="navbar navbar-fixed-top" role="navigation">
 		<div class="menu">
 			<ul>
-				<li><a href="/">Home</a></li>
-				<li>Visualization</li>
-				<li><a href="about.html">About</a></li>
+				<li><a href="index.html">Brazil: Credit Operations in the Public Sector and the Human Development Index</a></li>
 			</ul>
 		</div>
 	</nav>
 	<!-- Container -->
-	<div class="container-fluid">
+	<div class="container-fluid top-visualization">
 		<div class="row">
 			<!--- Tutorial  -->
 			<div id="tutorial" class="col-md-12">
@@ -59,35 +57,37 @@
 
 		<div class="row">
 			<!--- Gompertz Visualization -->
-			<div id="gompertzVis" class="col-md-12 gompertz-chart" data-step="1" data-intro='This Visualization shows Gompertz Curve, X-axis shows time and Y axis shows the amount of credit money requested during that time. You can use brush to select timeline to see how credit requests were made during this time.'></div>
+			<div id="gompertzVis" class="col-md-12 gompertz-chart" data-step="1" data-intro='This graph initially shows the number of credit requests per day.<br/>You can also view the Gompertz curve for the requests by clicking on [View Gompertz Function].<br/>The Gompertz Curve shows the accumulated number of requests in orange and the calculated (theoretical) in red.'></div>
+			<!-- Tour --> 
+			<div class="col-md-offset-11 col-md-1 tour" onclick="introJs().start()">[Retake the Tour]</div>
 		</div>
 
 		<div class="row">
 	    	<!-- Entity naming -->
-	    	<div id="entityInfo" class="col-md-3 col-md-offset-4" data-step="7" data-intro="This area displays the federated entity name as well as time range selected.">
+	    	<div id="entityInfo" class="col-md-3 col-md-offset-4" data-step="7" data-intro="This area displays information about the data being displayed. It shows the selected entity name, the time range selected, and the number of credit requests for the selected entity over the selected time.">
 	    		<h2 id="infoName">Brazil</h2>
 	    		<h3 id="infoDates">From 19/03/02 to 21/10/15</h3>
 	    		<h3 id="infoRequests">Number of Credit Requests: 15719 </h3>
 	    	</div>
 	    	<!-- Map Visualization -->
-	    	<div id="mapVis" class="col-md-5" data-step="6" data-intro="The map of Brazil shows different color based on the number of credit requests made for that particular entity in the time range selected.<br/> Click of a different state and you will see that every chart on the screen will update.<br/><br/><b>PRO TIP:</b> Left click on the map reset it to its original state."></div>
+	    	<div id="mapVis" class="col-md-5" data-step="6" data-intro="The Brazilian map shows different colors based on the number of credit requests made for the particular entity that is selected. Click of a different state on the Brazilian map and you will see that every chart on the screen will update. <br/><br/>You can filter it by state (selecting an entity on the map) or by time (selecting an area on the Gompertz Curve).<br/><br/><b>PRO TIP:</b> Left click on the map reset it to its original state."></div>
 		</div>
 
 		<div class="row">
 			<!-- Index Visualization -->
-			<div id="indexVis" class="lastRow col-md-2 lastRow" data-step="4" data-intro="This chart shows the HDI (Human Development Index) for the selected federated entity"></div>
+			<div id="indexVis" class="lastRow col-md-2 lastRow" data-step="4" data-intro="This chart shows the HDI (Human Development Index) for the selected entity. It has the Brazilian HDI as a criteria for comparison.<br/>You can change the selected entity (selecting an entity on the map)"></div>
 			<!-- Evolution Visualization -->
-			<div id="evolutionVis" class="col-md-7 lastRow" data-step="5" data-intro="Line Chart shows the credit requests made for particular purpose in the selected time range"></div>
+			<div id="evolutionVis" class="col-md-7 lastRow" data-step="5" data-intro="This chart shows how the money was invested over time.<br/><br/>You can filter it by state (selecting an entity on the map) or by time (selecting an area on the Gompertz Curve)."></div>
 		</div>
 
 		<div class="row">
 			<!-- Credit Category Visualization -->
-			<div id="creditCategoryChart" class="col-md-3 firstRow" data-step="2" data-intro="This chart shows the proportion of credit requests made for each purpose for the selected entity during the selected time range"></div>
+			<div id="creditCategoryChart" class="col-md-3 firstRow" data-step="2" data-intro="This chart shows the destination of the credit that was requested by showing where the money was invested.<br/><br/>You can filter it by entity (selecting an entity on the map) or by time (selecting an area on the Gompertz Curve)."></div>
 		</div>
 
 		<div class="row">
 			<!-- Credit Type Visualization -->
-			<div id="creditTypeChart" class="col-md-3 secondRow" data-step="3" data-intro="This chart shows the proportion of credit requests according to the creditor for the selected entity during the selected time range"></div>
+			<div id="creditTypeChart" class="col-md-3 secondRow" data-step="3" data-intro="This chart shows the origin of the money that was requested on the credit operation. It shows the type of creditor. This chart shows the origin of the credit request. It show where the money was invested.<br/><br/>You can filter it by state (selecting an entity on the map) or by time (selecting an area on the Gompertz Curve)."></div>
 		</div>
 	</div>
     <!-- main script -->

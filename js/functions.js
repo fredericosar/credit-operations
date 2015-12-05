@@ -4,6 +4,6 @@ $(document).ready(function() {
 	});
 	$("#yestutorial").click(function(){
 		d3.select("#tutorial").style("display", "none");
-		introJs().start()
+		introJs().start();
 	});
 });

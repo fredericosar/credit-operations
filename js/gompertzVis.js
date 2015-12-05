@@ -117,7 +117,10 @@ GompertzVis.prototype.initialize = function () {
 			self.updateBars();
 		})
 
-     self.svg.append("svg:image")
+	var groupPlay = self.svg.append("g")
+		.attr("data-step", 2)
+
+    groupPlay.append("svg:image")
      	.attr("xlink:href", "images/play.png")
      	.attr('x',-9)
      	.attr('y',-12)
@@ -128,7 +131,7 @@ GompertzVis.prototype.initialize = function () {
      		self.autoPlay();
 		});
 
-     self.svg.append("svg:image")
+    groupPlay.append("svg:image")
      	.attr("xlink:href", "images/stop.png")
      	.attr('x',-9)
      	.attr('y',-12)

@@ -5,16 +5,41 @@
 	color: white;
 	font-size: 25px;
 	font-weight: bold;
-	top: 70px;
-	text-shadow: 1px 1px #feb24c;
+	top: 10px;
+	text-shadow: 1.5px 1px #3e4095;
 }
-#how-it-works {
-	letter-spacing: 5px;
-	color: #00a859;
-	font-weight: bold;
-	text-align: center;
-	text-shadow: 1px 1px #feb24c;
+#bridge {
+	z-index: 100;
+	position: absolute;
+	text-align: right;
+	color: white;
+	font-size: 10px;
+	top: 400px;
+	text-shadow: 1.5px 1px #3e4095;
 }
 .flag {
 	height: 20px;
+}
+.info-bar {
+	letter-spacing: 5px;
+	font-weight: bold;
+	text-align: center;
+}
+.why {
+	text-shadow: 0.3px 0.3px #ffcc29;
+	color: #3e4095;
+}
+.how {
+	text-shadow: 0.3px 0.3px #3e4095;
+	color: #00a859;
+}
+.who{
+	text-shadow: 0.3px 0.3px #00a859;
+	color: #ffcc29;
+}
+.info-text{
+	color: #fff;
+	letter-spacing: 2px;	
+	text-align: justify;
+	text-justify: inter-word;
 }
