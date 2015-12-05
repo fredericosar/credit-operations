@@ -8,6 +8,16 @@
 	top: 70px;
 	text-shadow: 1.5px 1px #3e4095;
 }
+
+#bridge {
+	z-index: 100;
+	position: absolute;
+	text-align: right;
+	color: white;
+	font-size: 10px;
+	top: 430px;
+	text-shadow: 1.5px 1px #3e4095;
+}
 .flag {
 	height: 20px;
 }
