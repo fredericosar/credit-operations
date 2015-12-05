@@ -6,6 +6,7 @@
 
     <!-- libs -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/functions.js"></script>
 
     <!-- style -->
     <link rel="stylesheet" type="text/css" href="css/common.css">
@@ -16,9 +17,11 @@
 	<!-- Container -->
 	<div class="container-fluid">
 		<div class="row">
-			<img id="brazil" class="center fit" src="images/brazil.jpg"> 
-			<p id="title">Brazil:<br/>Credit Operations in the Public Sector and the Human Development Index</p>
-			<p id="bridge">Juscelino Kubitschek bridge - Brasilia</p>
+			<div class="col-md-12" id="brazil">
+				<p id="title">Brazil:<br/>Credit Operations in the Public Sector and the Human Development Index</p>
+				<p id="bridge"> Juscelino Kubitschek bridge - Brasilia</p>
+			</div>
+				<button id="goVis" type="button" class="btn btn-primary">Go to the Visualization!</button>
 			<div class="col-md-4 flag" style="background-color: #00a859">
 				<div class="info-bar why">Credit Operations</div>
 				<div class="info-text">This work intends to show relationships between credit operations on the Brazilian public sector and the Human Development Index. The idea is to facilitate the understanding of credit operations so the user can have thoughtful insights about the characteristics of the federated Brazilian entities' loans and the development of the country. Credit requests are the way that cities and states have to fund achievements of goals that would not be possible in the present time without the financial operation (which can be also understood as a loan), since local governments in Brazil are not allowed to issue bonds.<br/><br/>We believe our tool can be a great resource. Enjoy it!</div>
@@ -33,11 +36,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- Fix Image -->
-	<script>
-		$("#brazil").width($(".container-fluid").width() + 30);
-		$("#bridge").width($(".container-fluid").width() + 30);
-		$("#title").width($(".container-fluid").width() + 30);
-    </script>
 </body>
 </html>

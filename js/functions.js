@@ -6,4 +6,7 @@ $(document).ready(function() {
 		d3.select("#tutorial").style("display", "none");
 		introJs().start();
 	});
+	$("#goVis").click(function(){
+		window.location = "visualization.html";
+	});
 });
